@@ -9,7 +9,6 @@ class GamePlay extends Component {
         }
     }
     componentDidMount() {
-        console.log(this.props);
         this.setState({
             gameData: this.props.gameData,
             gameId: this.props.gameId,
@@ -73,7 +72,7 @@ class GamePlay extends Component {
                 <Row>
                     <Col>
                         <p className={"text-center " + (this.props.socket.id !== this.state.gameData.whose_turn ? "active-player" : "")}>
-                            {this.props.socket.id === this.state.gameData.player1 ? (this.state.gameData.game_status === "won" && this.state.gameData.game_winner === this.state.gameData.player2 ? "Opponent is Winner!!! " : " ") + this.state.gameData[this.state.gameData.player2].mobile_number + " | Played : " + this.state.gameData[this.state.gameData.player2].played + " | Won : " + this.state.gameData[this.state.gameData.player2].won + " | Draw : " + this.state.gameData[this.state.gameData.player2].draw : (this.state.gameData.game_status === "won" && this.state.gameData.game_winner === this.state.gameData.player1 ? "Opponent is Winner!!! " : " ") + this.state.gameData[this.state.gameData.player1].mobile_number + " | Played : " + this.state.gameData[this.state.gameData.player1].played + " | Won : " + this.state.gameData[this.state.gameData.player1].won + " | Draw : " + this.state.gameData[this.state.gameData.player1].draw}
+                            {this.props.socket.id === this.state.gameData.player1 ? (this.state.gameData.game_status === "won" && this.state.gameData.game_winner === this.state.gameData.player2 ? "Opponent is Winner!!! " : " ") + this.state.gameData[this.state.gameData.player2].userName + " | Played : " + this.state.gameData[this.state.gameData.player2].played + " | Won : " + this.state.gameData[this.state.gameData.player2].won + " | Draw : " + this.state.gameData[this.state.gameData.player2].draw : (this.state.gameData.game_status === "won" && this.state.gameData.game_winner === this.state.gameData.player1 ? "Opponent is Winner!!! " : " ") + this.state.gameData[this.state.gameData.player1].userName + " | Played : " + this.state.gameData[this.state.gameData.player1].played + " | Won : " + this.state.gameData[this.state.gameData.player1].won + " | Draw : " + this.state.gameData[this.state.gameData.player1].draw}
                         </p>
                     </Col>
                 </Row>
@@ -91,7 +90,7 @@ class GamePlay extends Component {
                 <Row>
                     <Col>
                         <p className={"text-center " + (this.props.socket.id === this.state.gameData.whose_turn ? "active-player" : "")}>{
-                            this.props.socket.id === this.state.gameData.player1 ? (this.state.gameData.game_status === "won" && this.state.gameData.game_winner === this.state.gameData.player1 ? "You are Winner!!! " : " ") + this.state.gameData[this.state.gameData.player1].mobile_number + " | Played : " + this.state.gameData[this.state.gameData.player1].played + " | Won : " + this.state.gameData[this.state.gameData.player1].won + " | Draw : " + this.state.gameData[this.state.gameData.player1].draw : (this.state.gameData.game_status === "won" && this.state.gameData.game_winner === this.state.gameData.player2 ? "You are Winner!!! " : " ") + this.state.gameData[this.state.gameData.player2].mobile_number + " | Played : " + this.state.gameData[this.state.gameData.player2].played + " | Won : " + this.state.gameData[this.state.gameData.player2].won + " | Draw : " + this.state.gameData[this.state.gameData.player2].draw}
+                            this.props.socket.id === this.state.gameData.player1 ? (this.state.gameData.game_status === "won" && this.state.gameData.game_winner === this.state.gameData.player1 ? "You are Winner!!! " : " ") + this.state.gameData[this.state.gameData.player1].userName + " | Played : " + this.state.gameData[this.state.gameData.player1].played + " | Won : " + this.state.gameData[this.state.gameData.player1].won + " | Draw : " + this.state.gameData[this.state.gameData.player1].draw : (this.state.gameData.game_status === "won" && this.state.gameData.game_winner === this.state.gameData.player2 ? "You are Winner!!! " : " ") + this.state.gameData[this.state.gameData.player2].userName + " | Played : " + this.state.gameData[this.state.gameData.player2].played + " | Won : " + this.state.gameData[this.state.gameData.player2].won + " | Draw : " + this.state.gameData[this.state.gameData.player2].draw}
                         </p>
                     </Col>
                 </Row>

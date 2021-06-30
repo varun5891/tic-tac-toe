@@ -5,7 +5,8 @@ class ShowUsers extends Component {
     constructor() {
         super();
         this.state = {
-            opponents: []
+            opponents: [],
+            selected: false
         };
     }
     componentDidMount() {
@@ -63,17 +64,22 @@ class ShowUsers extends Component {
         this.props.socket.emit('getOpponents', {});
     }
     selectOpponent = (index) => {
+        this.setState({
+            selected: true
+        })
         this.props.socket.emit('selectOpponent', { "id": this.state.opponents[index].id });
     };
     render() {
         return (
             <Fragment>
-                <h2>Please select opponent from the following</h2>
+                { this.state.selected ? null : <h2>Please select opponent from the following</h2>}
+                
                 <ListGroup onSelect={this.selectOpponent}>
-                    {this.state.opponents.map(function (opponent, index) {
-                        return <ListGroup.Item action={true} className="opponent-item" key={index} eventKey={index} >{opponent.mobile_number} | Played : {opponent.played}  | Won : {opponent.won}  | Draw : {opponent.draw}</ListGroup.Item>;
+                    {this.state.opponents.length === 0 ? this.state.selected ? null : <p> Please Wait till Other Players Join the Game.</p> : this.state.opponents.map(function (opponent, index) {
+                        return <ListGroup.Item action={true} className="opponent-item" key={index} eventKey={index} > {opponent.userName.toUpperCase()} | Played : {opponent.played}  | Won : {opponent.won}  | Draw : {opponent.draw}</ListGroup.Item>;
                     })}
-                </ListGroup></Fragment>
+                </ListGroup>
+            </Fragment>
         );
     }
 }

@@ -51,7 +51,7 @@ export default function SignUp() {
   const history = useHistory();
   const classes = useStyles();
 
-
+  const disableSubmit = userDetails.username === '' || userDetails.email === '' || userDetails.password === '' || userDetails.firstname === '' || userDetails.lastname === '';
 
   const onUserDetailChange = (e) => {
     setUserDetails({
@@ -96,7 +96,6 @@ export default function SignUp() {
               <TextField
                 autoComplete="fname"
                 name="firstname"
-                variant="outlined"
                 required
                 fullWidth
                 id="firstname"
@@ -107,7 +106,6 @@ export default function SignUp() {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                variant="outlined"
                 required
                 fullWidth
                 id="lastname"
@@ -119,7 +117,6 @@ export default function SignUp() {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                variant="outlined"
                 required
                 fullWidth
                 id="username"
@@ -131,7 +128,6 @@ export default function SignUp() {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                variant="outlined"
                 required
                 fullWidth
                 id="email"
@@ -143,7 +139,6 @@ export default function SignUp() {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                variant="outlined"
                 required
                 fullWidth
                 name="password"
@@ -161,6 +156,7 @@ export default function SignUp() {
             color="primary"
             className={classes.submit}
             onClick={onHandleSubmit}
+            disabled={disableSubmit}
           >
             Sign Up
           </Button>

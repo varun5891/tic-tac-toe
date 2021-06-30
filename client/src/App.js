@@ -9,14 +9,20 @@ import Signup from './components/SignUp/SignUp';
 import Header from './components/Common/Header/Header';
 import Footer from './components/Common/Footer/Footer';
 import Game from './components/Game/Game';
-import { io } from "socket.io-client";
 
 
 const App = () => {
 
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  const [userDetails, setUserDetails] = React.useState({
+    username: null,
+    email: null,
+    id: null,
+    accessToken: null
+  });
 
-  const isUserAuthenticated = () => {
+  const isUserAuthenticated = (data) => {
+    setUserDetails(data.user);
     setIsAuthenticated(true);
   }
 
@@ -42,7 +48,7 @@ const App = () => {
           </Route>
           <ProtectedRoute exact path="/dashboard" handleLogout={handleLogout} isAuthenticated={isAuthenticated} component={Dashboard} />
           <Route exact path="/signup" handleLogout={handleLogout} isAuthenticated={isAuthenticated} component={Signup} />
-          <Route exact path='/game' component={Game} />
+          <Route exact path='/game'> <Game userDetails={userDetails}/></Route>
         </Switch>
       </BrowserRouter>
       {isAuthenticated ? <Footer /> : null}

@@ -76,7 +76,7 @@ const Login = (props) => {
   const handleOnSubmit = () => {
     singin(userData).then(resp => {
       if (resp.data.status === 200) {
-        isUserAuthenticated();
+        isUserAuthenticated(resp.data);
         history.push(`/dashboard`);
       } else {
         Swal.fire({
