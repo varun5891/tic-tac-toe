@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { signup } from '../../Services/Login/Login_Service';
 import { useHistory } from 'react-router-dom'
+import Swal from 'sweetalert2';;
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -63,10 +64,18 @@ export default function SignUp() {
   
      signup(userDetails).then( resp => {
       if(resp.data.status === 200){
-        alert('Successfully Signed Up');
+        Swal.fire({
+          icon: 'success',
+          title: 'Signed Up',
+          text: `You have been signed up successfully..!!!`,
+        })
         history.push(`/`);
       } else {
-        alert(resp.data.message);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `${resp.data.message}`,
+        })
       }
     })
   }

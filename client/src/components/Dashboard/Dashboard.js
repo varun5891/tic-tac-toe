@@ -4,7 +4,11 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import DataTableGrid from '../Common/DataTableGrid/DataTableGrid';
 import { getUsers } from '../../Services/User/User_Service';
-import nextId from "react-id-generator";
+import Swal from 'sweetalert2';
+import moment from 'moment';
+import Button from '@material-ui/core/Button';
+import { useHistory } from 'react-router-dom'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,79 +24,55 @@ export default function Dashboard() {
 
   const classes = useStyles();
   const [users, setUsers] = React.useState([]);
+  const [playNewGame, setPlayNewGame] = React.useState(false);
+  const history = useHistory();
 
   const columns = [
     {
-      headerName: 'ID',
-      width: 100,
-      valueGetter:Math.random()
-    },
-    {
       field: 'firstname',
       headerName: 'First name',
-      width: 150,
+      flex: 0.2,
       editable: true,
     },
     {
       field: 'lastname',
       headerName: 'Last name',
-      width: 150,
+      flex: 0.2,
       editable: true,
     },
     {
       field: 'soap',
       headerName: 'SOAP',
-      width: 150,
+      flex: 0.15,
       editable: true,
     },
     {
       field: 'registrationdate',
       headerName: 'Registration Date',
-      width: 200,
+      flex: 0.2,
       editable: true,
+      valueFormatter: (params) => { return moment(params.row.registrationdate).format('DD/MM/YYYY'); },
     },
     {
       field: 'lastlogindate',
       headerName: 'Last Login Date',
-      type: Date,
-      width: 200,
+      flex: 0.2,
       editable: true,
+      valueFormatter: (params) => { return moment(params.row.registrationdate).format('DD/MM/YYYY'); },
     },
     {
       field: 'status',
       headerName: 'Status',
-      width: 200,
+      flex: 0.15,
       editable: true,
+      valueFormatter: (params) => { return params.row.status === 'true' ? 'Active' : 'InActive' },
     },
 
   ];
 
-  const rowss = [
-    {
-      roles: [],
-      _id: "60d621932006542e948d6c8f",
-      username: "varun",
-      email: "kakaniyavarun@gmail.com",
-      password: "$2a$08$04.d6Qna30WKaEKrxqTIdOzOusq9RwYiw2kXXFj1BtCvIRbIp3HHW",
-      firstname: "Varun",
-      lastname: "Patel",
-      lastlogindate: "2021-06-25T18:35:14.565Z",
-      registrationdate: "2021-06-25T18:33:39.921Z",
-      status: "true",
-      __v: 0,
-      
-    }
-  ]
-  const rows = [
-    { id: 1, lastName: 'Patel', firstName: 'Varun', soap: 'Test', registrationDate: '05/05/2015', lastLoginDate: '05/05/20150', status: 'Active' },
-    { id: 2, lastName: 'Kakasaniya', firstName: 'Vishal', soap: 'Test', registrationDate: '05/05/2015', lastLoginDate: '05/05/20150', status: 'Active' },
-
-    { id: 3, lastName: 'Kakaniya', firstName: 'Tushar', soap: 'Test', registrationDate: '05/05/2015', lastLoginDate: '05/05/20150', status: 'Active' },
-
-    { id: 4, lastName: 'Kakaniya', firstName: 'Satish', soap: 'Test', registrationDate: '05/05/2015', lastLoginDate: '05/05/20150', status: 'Active' },
-
-  ];
-
+  const onPlayNewGame = () => {
+    history.push(`/game`);
+  }
 
   const onMount = () => {
     getUsers().then(resp => {
@@ -100,7 +80,11 @@ export default function Dashboard() {
         if (resp.data.users.length !== 0) {
           setUsers(resp.data.users);
         } else {
-          alert("No User Data Found");
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: `No User Data found!`,
+          })
         }
       }
     })
@@ -109,7 +93,21 @@ export default function Dashboard() {
   useEffect(onMount, []);
   return (
     <div className={classes.paper}>
-      <Grid container>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Button variant="contained" color="primary" style={{ float: 'right' }} onClick={onPlayNewGame}>
+            Play New Game
+          </Button>
+        </Grid>
+      </Grid>
+
+      {playNewGame ?
+        <Grid container style={{ marginTop: '20px' }}>
+         
+        </Grid>
+        : null}
+
+      <Grid container style={{ marginTop: '20px' }}>
         <DataTableGrid rows={users} columns={columns} />
       </Grid>
     </div>

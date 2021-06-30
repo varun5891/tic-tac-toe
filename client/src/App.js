@@ -1,14 +1,16 @@
 import logo from './logo.svg';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import Login from './components/Login/Login';
 import Dashboard from './components/Dashboard/Dashboard';
-import Preferences from './components/Preferences/Preferences';
 import Signup from './components/SignUp/SignUp';
 import Header from './components/Common/Header/Header';
 import Footer from './components/Common/Footer/Footer';
+import Game from './components/Game/Game';
+import { io } from "socket.io-client";
+
 
 const App = () => {
 
@@ -40,7 +42,7 @@ const App = () => {
           </Route>
           <ProtectedRoute exact path="/dashboard" handleLogout={handleLogout} isAuthenticated={isAuthenticated} component={Dashboard} />
           <Route exact path="/signup" handleLogout={handleLogout} isAuthenticated={isAuthenticated} component={Signup} />
-          <ProtectedRoute exact path="/preferences" handleLogout={handleLogout} isAuthenticated={isAuthenticated} component={Preferences} />
+          <Route exact path='/game' component={Game} />
         </Switch>
       </BrowserRouter>
       {isAuthenticated ? <Footer /> : null}

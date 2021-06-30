@@ -14,13 +14,14 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom'
 import { singin } from '../../Services/Login/Login_Service';
+import Swal from 'sweetalert2';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" >
+        Tic Tac Toe Game
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -65,7 +66,10 @@ const Login = (props) => {
     isUserAuthenticated
   } = props;
 
-  const [userData, setUserData] = React.useState({});
+  const [userData, setUserData] = React.useState({
+    username: null,
+    password: null
+  });
   const classes = useStyles();
   const history = useHistory();
 
@@ -75,7 +79,11 @@ const Login = (props) => {
         isUserAuthenticated();
         history.push(`/dashboard`);
       } else {
-        alert(resp.data.message);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `${resp.data.message}`,
+        })
       }
     });
 
@@ -87,6 +95,8 @@ const Login = (props) => {
       [e.target.name]: e.target.value
     })
   };
+
+  const disableSubmit = userData.username === null || userData.password === null;
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -102,7 +112,7 @@ const Login = (props) => {
           </Typography>
           <form className={classes.form} noValidate>
             <TextField
-              variant="outlined"
+              required
               margin="normal"
               required
               fullWidth
@@ -111,10 +121,10 @@ const Login = (props) => {
               name="username"
               autoComplete="username"
               onChange={userDetailChange}
-              autoFocus
+
             />
             <TextField
-              variant="outlined"
+              required
               margin="normal"
               required
               fullWidth
@@ -130,12 +140,13 @@ const Login = (props) => {
               label="Remember me"
             />
             <Button
-
+              autoFocus={true}
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
               onClick={handleOnSubmit}
+              disabled={disableSubmit}
             >
               Sign In
             </Button>
